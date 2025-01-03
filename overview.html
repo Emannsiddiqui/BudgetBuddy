@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BudgetBuddy - Overview</title>
+    <link rel="stylesheet" href="overview.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">BudgetBuddy</div>
+            <input type="text" class="search-bar" placeholder="Search">
+            <nav>
+                <ul>
+                    <li><a href="#">Overview</a></li>
+                    <li><a href="#">Finance</a></li>
+                    <li><a href="#">Calendar</a></li>
+                    <li><a href="#">Events</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="overview-container">
+            <section class="total-summary">
+                <div class="summary-item">
+                    <h3>Total Income</h3>
+                    <p>$5000</p>
+                </div>
+                <div class="summary-item">
+                    <h3>Total Expenses</h3>
+                    <p>$3500</p>
+                </div>
+                <div class="summary-item">
+                    <h3>Balance</h3>
+                    <p>$1500</p>
+                </div>
+            </section>
+
+            <!-- Flex container for charts -->
+            <section class="charts-container">
+                <div class="chart-container">
+                    <h2>Expense Breakdown</h2>
+                    <canvas id="expensePieChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h2>Budget vs Actual Spending</h2>
+                    <canvas id="budgetLineChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Recent Transactions Section -->
+<section class="recent-transactions">
+    <h2>Recent Transactions</h2>
+    <div class="transaction-list">
+        <div class="transaction">
+            <p>Groceries</p>
+            <span class="amount">$100</span>
+        </div>
+        <div class="transaction">
+            <p>Electricity Bill</p>
+            <span class="amount">$150</span>
+        </div>
+        <div class="transaction">
+            <p>Rent</p>
+            <span class="amount">$1200</span>
+        </div>
+        <div class="transaction">
+            <p>Dining</p>
+            <span class="amount">$50</span>
+        </div>
+        <div class="transaction">
+            <p>Internet</p>
+            <span class="amount">$70</span>
+        </div>
+    </div>
+</section>
+
+
+
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 BudgetBuddy</p>
+    </footer>
+
+    <script src="overview.js"></script>
+</body>
+</html>

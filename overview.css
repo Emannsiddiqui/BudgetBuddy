@@ -1,0 +1,191 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+.search-bar {
+    flex: 1;
+    margin: 0 2rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #4CAF50;
+}
+
+/* Overview Section */
+.overview-container {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+}
+
+.total-summary {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 2rem;
+    flex-wrap: wrap; /* Ensures responsive wrapping */
+    gap: 1rem;
+}
+
+.summary-item {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    width: 150px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.summary-item h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.summary-item p {
+    font-size: 1.5rem;
+    color: #4CAF50;
+}
+
+/* Flex container for charts */
+.charts-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center charts on smaller screens */
+    gap: 1rem;
+    margin-top: 2rem;
+    padding: 0 1rem; /* Padding for better spacing on small screens */
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Chart container */
+.chart-container {
+    flex: 1 1 calc(50% - 2rem); /* Make charts responsive */
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    max-height: 400px;
+    aspect-ratio: 1 / 1; /* Ensure the chart maintains a square aspect ratio */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Canvas */
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 350px; /* Restrict canvas size for smaller containers */
+    max-height: 350px;
+    margin: auto;
+}
+
+/* Recent Transactions Section */
+.recent-transactions {
+    margin-top: 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.transaction-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid with 200px minimum */
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    max-width: 1200px; /* Limit the width of the grid container */
+    width: 100%;
+}
+
+.transaction {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 250px; /* Limit the maximum width of transaction boxes */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.transaction:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.transaction p {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #333; /* Transaction title color */
+}
+
+.transaction .amount {
+    background-color: #4CAF50; /* Amount background color */
+    color: white;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #ffffff;
+    color: #333;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}

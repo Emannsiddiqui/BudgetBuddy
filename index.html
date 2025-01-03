@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BudgetBuddy Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">BudgetBuddy</div>
+            <input type="text" class="search-bar" placeholder="Search">
+            <nav>
+                <ul>
+                    <li><a href="overview.html">Overview</a></li>
+                    <li><a href="#">Finance</a></li>
+                    <li><a href="#">Calendar</a></li>
+                    <li><a href="#">Events</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="main-content">
+            <div class="graphs">
+                <div class="chart-container">
+                    <canvas id="barChart"></canvas>
+                </div>
+                <div class="chart-container small">
+                    <canvas id="doughnutChart"></canvas>
+                </div>
+            </div>
+
+            <section class="categories">
+                <h2>Categories with Biggest Expense</h2>
+                <div class="category-cards">
+                    <div class="card">
+                        <p>Shopping</p>
+                        <span>$1200</span>
+                    </div>
+                    <div class="card">
+                        <p>Clothes</p>
+                        <span>$2500</span>
+                    </div>
+                    <div class="card">
+                        <p>Camera</p>
+                        <span>$3500</span>
+                    </div>
+                    <div class="card">
+                        <p>Home Loan</p>
+                        <span>$3000</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="calendar">
+                <h2>Calendar</h2>
+                <div id="calendar"></div>
+            </section>
+            
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 BudgetBuddy</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

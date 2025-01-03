@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Tracker - Expenses</title>
+    <link rel="stylesheet" href="finance.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="logo">Finance Tracker</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="overview.html">Overview</a></li>
+                <li><a href="expenses.html">Add Expense</a></li>
+                <li><a href="finance.html">Finance</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Finance Page Content -->
+    <main>
+        <section class="finance-section">
+            <h1>Track Your Expenses</h1>
+
+            <!-- Date Input for Expense Search -->
+            <div class="date-input">
+                <label for="expense-date">Select Date:</label>
+                <input type="date" id="expense-date" name="expense-date">
+                <button id="submit-date">Check Expenses</button>
+            </div>
+
+            <!-- Expense Overview -->
+            <div class="expense-overview">
+                <div class="total-summary">
+                    <div class="summary-item">
+                        <h3>Daily</h3>
+                        <p id="daily-expense">$0</p>
+                    </div>
+                    <div class="summary-item">
+                        <h3>Weekly</h3>
+                        <p id="weekly-expense">$0</p>
+                    </div>
+                    <div class="summary-item">
+                        <h3>Monthly</h3>
+                        <p id="monthly-expense">$0</p>
+                    </div>
+                    <div class="summary-item">
+                        <h3>Yearly</h3>
+                        <p id="yearly-expense">$0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transactions for the selected date -->
+            <div id="transaction-details" class="recent-transactions">
+                <h2>Recent Transactions</h2>
+                <div class="transaction-list">
+                    <!-- Transactions will be dynamically inserted here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Finance Tracker. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
