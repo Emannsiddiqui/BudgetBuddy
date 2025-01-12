@@ -265,85 +265,124 @@ function showTab(tabName) {
   }
 }
 
-let totalExpenses = 3000;  // Starting value (you can dynamically fetch this from the database)
-let totalIncome = 1000;  // Starting value (you can dynamically fetch this from the database)
-const transactions = [];  // Array to store the transactions
+//EXPENSE OR INCOME
+document.addEventListener('DOMContentLoaded', function () {
+  // Initial values for Total Income, Total Expenses, and Total Balance
+  let totalBalance = 0;
+  let totalIncome = 0;
+  let totalExpenses = 0;
+  let expenseTransactionIdCounter = 1; // For expenses
+  let incomeTransactionIdCounter = 1; // For income transactions
 
-// Function to add new transaction
-function addTransaction(event) {
-    event.preventDefault();
-    const category = document.getElementById("category").value;
-    const amount = parseFloat(document.getElementById("amount").value);
-    const description = document.getElementById("description").value;
-    const type = document.querySelector('input[name="type"]:checked').value;
+  // Function to add a new transaction
+  function addTransaction(event) {
+      event.preventDefault();
 
-    if (isNaN(amount) || amount <= 0) {
-        alert("Please enter a valid amount.");
-        return;
-    }
+      const category = document.getElementById("category").value;
+      const amount = parseFloat(document.getElementById("amount").value);
+      const description = document.getElementById("description").value;
+      const type = document.querySelector('input[name="type"]:checked').value;
+      const date = document.getElementById("transaction-date").value;
 
-    // Add to transactions array
-    transactions.push({ category, amount, description, type });
+      if (isNaN(amount) || amount <= 0) {
+          alert("Please enter a valid amount.");
+          return;
+      }
 
-    // Update Total Expenses or Total Income
-    if (type === "expense") {
-        totalExpenses += amount;
-    } else if (type === "income") {
-        totalIncome += amount;
-    }
+      if (!date) {
+          alert("Please select a valid date.");
+          return;
+      }
 
-    // Update Total values on the page
-    document.querySelector(".stats-value:nth-child(2)").textContent = `${totalExpenses} Rs`;
-    document.querySelector(".stats-value:nth-child(3)").textContent = `${totalIncome} Rs`;
+      // Update totals based on the transaction type
+      if (type === "expense") {
+          totalExpenses += amount; // Increase expenses for expense type
+      } else if (type === "income") {
+          totalIncome += amount; // Increase income for income type
+      }
 
-    // Add to Recent Transactions Table
-    const transactionTable = document.querySelector(".transactions-table tbody");
-    const newRow = document.createElement("tr");
-    newRow.innerHTML = `
-        <td>${transactions.length}</td>
-        <td>${new Date().toLocaleDateString()}</td>
-        <td>${amount} Rs</td>
-        <td>${description}</td>
-    `;
-    transactionTable.appendChild(newRow);
+      // Calculate total balance as the difference between income and expenses
+      totalBalance = totalIncome - totalExpenses;
 
-    // Update graph if needed
-    updateGraph();
+      // Update the stats values on the page
+      const totalBalanceElem = document.getElementById("total-balance");
+      const totalExpensesElem = document.getElementById("total-expenses");
+      const totalIncomeElem = document.getElementById("total-income");
 
-    // Save transaction in the database (Make AJAX call here)
-    saveTransactionToDatabase(category, amount, description, type);
-}
+      if (totalBalanceElem && totalExpensesElem && totalIncomeElem) {
+          totalBalanceElem.textContent = `${totalBalance} Rs`;
+          totalExpensesElem.textContent = `${totalExpenses} Rs`;
+          totalIncomeElem.textContent = `${totalIncome} Rs`;
+      }
 
-// Function to update the graph (for example, a simple chart)
-function updateGraph() {
-    const ctx = document.getElementById("expensesChart").getContext("2d");
-    const chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Expenses', 'Income'],
-            datasets: [{
-                label: 'Amount',
-                data: [totalExpenses, totalIncome],
-                backgroundColor: ['red', 'green']
-            }]
-        }
-    });
-}
+      // Add the transaction to the Recent Transactions table (for expenses)
+      if (type === "expense") {
+          const transactionTable = document.querySelector(".transactions-table tbody");
 
-// Save transaction in the database (AJAX call)
-function saveTransactionToDatabase(category, amount, description, type) {
-    fetch("/add-transaction", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ category, amount, description, type })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Transaction saved:', data);
-    })
-    .catch(error => {
-        console.error('Error saving transaction:', error);
-    });
-}
+          // Ensure the table exists before appending
+          if (transactionTable) {
+              // Create a new row for the recent expense transaction
+              const newRow = document.createElement("tr");
+              newRow.innerHTML = `
+                  <td>${expenseTransactionIdCounter}</td>
+                  <td>${date}</td>
+                  <td style="font-weight: 600;">Rs ${amount}</td>
+                  <td>${description}</td>
+              `;
+              transactionTable.appendChild(newRow);
+          }
+
+          // Add the transaction to the Expenses Breakdown table
+          const expenseBreakdownTable = document.querySelector(".expenses-breakdown .transactions-table tbody");
+
+          // Ensure the table exists before appending
+          if (expenseBreakdownTable) {
+              // Create a new row for the expense breakdown
+              const newExpenseRow = document.createElement("tr");
+              newExpenseRow.innerHTML = `
+                  <td>${expenseTransactionIdCounter}</td>
+                  <td>${date}</td>
+                  <td style="font-weight: 600;">Rs ${amount}</td>
+                  <td>${category}</td>
+              `;
+              expenseBreakdownTable.appendChild(newExpenseRow);
+          }
+
+          // Increment the expense transaction ID counter for the next expense
+          expenseTransactionIdCounter++;
+      }
+
+      // Add the transaction to the Income Breakdown table (for incomes)
+      if (type === "income") {
+          const incomeTable = document.querySelector(".income-breakdown .transactions-table tbody");
+
+          // Ensure the table exists before appending
+          if (incomeTable) {
+              // Create a new row for the recent income transaction
+              const newIncomeRow = document.createElement("tr");
+              newIncomeRow.innerHTML = `
+                  <td>${incomeTransactionIdCounter}</td>
+                  <td>${date}</td>
+                  <td style="font-weight: 600;">Rs ${amount}</td>
+                  <td>${category}</td>
+              `;
+              incomeTable.appendChild(newIncomeRow);
+          }
+
+          // Increment the income transaction ID counter for the next income
+          incomeTransactionIdCounter++;
+      }
+
+      // Clear the form after submitting
+      document.getElementById("category").value = "";
+      document.getElementById("amount").value = "";
+      document.getElementById("description").value = "";
+      document.querySelector('input[name="type"]:checked').checked = false;
+      document.getElementById("transaction-date").value = "";
+  }
+
+  // Attach event listener to form
+  document.getElementById("transaction-form").addEventListener("submit", addTransaction);
+});
+
+  
