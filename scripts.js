@@ -265,28 +265,85 @@ function showTab(tabName) {
   }
 }
 
-function createCategory(event) {
-  // Get the parent grid (expenses or income)
-  const parentGrid = event.target.closest('.category-grid');
+let totalExpenses = 3000;  // Starting value (you can dynamically fetch this from the database)
+let totalIncome = 1000;  // Starting value (you can dynamically fetch this from the database)
+const transactions = [];  // Array to store the transactions
 
-  // Prompt the user to enter the name of the new category
-  const categoryName = prompt('Enter the name of the new category:');
-  if (!categoryName || categoryName.trim() === '') {
-    alert('Invalid category name. Please try again.');
-    return;
-  }
+// Function to add new transaction
+function addTransaction(event) {
+    event.preventDefault();
+    const category = document.getElementById("category").value;
+    const amount = parseFloat(document.getElementById("amount").value);
+    const description = document.getElementById("description").value;
+    const type = document.querySelector('input[name="type"]:checked').value;
 
-  // Create a new category div
-  const newCategory = document.createElement('div');
-  newCategory.classList.add('category');
-  newCategory.innerHTML = `<i class="fas fa-tags"></i><p>${categoryName}</p>`;
+    if (isNaN(amount) || amount <= 0) {
+        alert("Please enter a valid amount.");
+        return;
+    }
 
-  // Add the new category to the grid before the "Create" button
-  parentGrid.insertBefore(newCategory, event.target.closest('.category'));
+    // Add to transactions array
+    transactions.push({ category, amount, description, type });
+
+    // Update Total Expenses or Total Income
+    if (type === "expense") {
+        totalExpenses += amount;
+    } else if (type === "income") {
+        totalIncome += amount;
+    }
+
+    // Update Total values on the page
+    document.querySelector(".stats-value:nth-child(2)").textContent = `${totalExpenses} Rs`;
+    document.querySelector(".stats-value:nth-child(3)").textContent = `${totalIncome} Rs`;
+
+    // Add to Recent Transactions Table
+    const transactionTable = document.querySelector(".transactions-table tbody");
+    const newRow = document.createElement("tr");
+    newRow.innerHTML = `
+        <td>${transactions.length}</td>
+        <td>${new Date().toLocaleDateString()}</td>
+        <td>${amount} Rs</td>
+        <td>${description}</td>
+    `;
+    transactionTable.appendChild(newRow);
+
+    // Update graph if needed
+    updateGraph();
+
+    // Save transaction in the database (Make AJAX call here)
+    saveTransactionToDatabase(category, amount, description, type);
 }
 
-// Add event listeners to all "Create" buttons
-document.querySelectorAll('.category i.fa-plus-circle').forEach(createButton => {
-  createButton.parentElement.addEventListener('click', createCategory);
-});
+// Function to update the graph (for example, a simple chart)
+function updateGraph() {
+    const ctx = document.getElementById("expensesChart").getContext("2d");
+    const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Expenses', 'Income'],
+            datasets: [{
+                label: 'Amount',
+                data: [totalExpenses, totalIncome],
+                backgroundColor: ['red', 'green']
+            }]
+        }
+    });
+}
 
+// Save transaction in the database (AJAX call)
+function saveTransactionToDatabase(category, amount, description, type) {
+    fetch("/add-transaction", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ category, amount, description, type })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Transaction saved:', data);
+    })
+    .catch(error => {
+        console.error('Error saving transaction:', error);
+    });
+}
